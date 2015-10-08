@@ -4,20 +4,68 @@
 #include <string.h>
 #include "ContainSubstring.h"
 
+size_t pointer_sizeof(char* string){
+    size_t size = 0;
+    while(*string != '\0'){
+        size = size + 1;
+        string = string + 1;
+    }
+    return size;
+}
 
-bool ContainSubstring_Brute(char* main_string, char* substring){
-    printf("Size of main string: %d\nSize of substring: %d\n",
-            strlen(*main_string), strlen(*substring));
-    /*
-    while(*main_string != '\0'){
+bool ContainSubstring_Brute(char main_string[], char substring[]){
+    /* This is similar to the pointer version, much shorter and simpler */
+    size_t main_size = strlen(main_string);
+    size_t sub_size = strlen(substring);
+    int i, j, icap;
+    icap = main_size - sub_size + 2;
+    bool result;
+    for(i = 0; i < icap; i++){
+        if(main_string[i] == substring[0]){
+            result = true;
+            for(j = 0; j < sub_size; j++){
+                if(main_string[i + j] != substring[j]){
+                    result = false;
+                    break;
+                }
+            }
+            if(result){
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+bool ContainSubstringP_Brute(char* main_string, char* substring){
+    /* I find it is better to find the size first when substring can also be O(n) length */
+    size_t main_size = pointer_sizeof(main_string);
+    size_t sub_size = pointer_sizeof(substring);
+    int i, j, icap;
+    /* There is no point in searching when the rest of the main_string is not long enough */
+    icap = main_size - sub_size + 2;
+    bool result;
+    for(i = 0; i < icap; i++){
         if(*main_string == *substring){
-            char* main_temp = main_string + 1;
-            char* sub_temp = substring + 1;
-            while(){
-                
+            result = true;
+            char* main_temp = main_string;
+            char* sub_temp = substring;
+            for(j = 0; j < sub_size; j++){
+                if(*main_temp != *sub_temp){
+                    result = false;
+                    break;
+                }
+                else{
+                    main_temp = main_temp + 1;
+                    sub_temp = sub_temp + 1;
+                }
+            }
+            if(result){
+                return true;
             }
         }
         main_string = main_string + 1;
-    }*/
+    }
     return false;
 }
+
