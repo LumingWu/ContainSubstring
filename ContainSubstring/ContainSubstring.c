@@ -15,10 +15,9 @@ size_t pointer_sizeof(char* string){
 
 bool ContainSubstring_Brute(char main_string[], char substring[]){
     /* This is similar to the pointer version, much shorter and simpler */
-    size_t main_size = strlen(main_string);
     size_t sub_size = strlen(substring);
     int i, j, icap;
-    icap = main_size - sub_size + 2;
+    icap = strlen(main_string) - sub_size + 2;
     bool result;
     for(i = 0; i < icap; i++){
         if(main_string[i] == substring[0]){
