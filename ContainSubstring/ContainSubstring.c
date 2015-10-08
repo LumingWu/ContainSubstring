@@ -13,16 +13,16 @@ size_t pointer_sizeof(char* string){
     return size;
 }
 
-bool ContainSubstring_Brute(char main_string[], char substring[]){
+bool ContainSubstring_Dummy(char main_string[], char substring[]){
     /* This is similar to the pointer version, much shorter and simpler */
-    size_t sub_size = strlen(substring);
+    size_t sub_length = strlen(substring);
     int i, j, icap;
-    icap = strlen(main_string) - sub_size + 2;
+    icap = strlen(main_string) - sub_length + 2;
     bool result;
     for(i = 0; i < icap; i++){
         if(main_string[i] == substring[0]){
             result = true;
-            for(j = 0; j < sub_size; j++){
+            for(j = 0; j < sub_length; j++){
                 if(main_string[i + j] != substring[j]){
                     result = false;
                     break;
@@ -36,17 +36,17 @@ bool ContainSubstring_Brute(char main_string[], char substring[]){
     return false;
 }
 
-bool ContainSubstringP_Brute(char* main_string, char* substring){
+bool ContainSubstringP_Dummy(char* main_string, char* substring){
     /* I find it is better to find the size first when substring can also be O(n) length */
-    size_t sub_size = pointer_sizeof(substring);
+    size_t sub_length = pointer_sizeof(substring);
     int i, j, icap;
     /* There is no point in searching when the rest of the main_string is not long enough */
-    icap = pointer_sizeof(main_string) - sub_size + 2;
+    icap = pointer_sizeof(main_string) - sub_length + 2;
     bool result;
     for(i = 0; i < icap; i++){
         if(*(main_string + i) == *substring){
             result = true;
-            for(j = 0; j < sub_size; j++){
+            for(j = 0; j < sub_length; j++){
                 if(*(main_string + i + j) != *(substring + j)){
                     result = false;
                     break;
@@ -60,3 +60,6 @@ bool ContainSubstringP_Brute(char* main_string, char* substring){
     return false;
 }
 
+bool ContainSubstring_DFA(char main_string[], char substring[]){
+    
+}
