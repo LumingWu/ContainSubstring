@@ -39,32 +39,24 @@ bool ContainSubstring_Brute(char main_string[], char substring[]){
 
 bool ContainSubstringP_Brute(char* main_string, char* substring){
     /* I find it is better to find the size first when substring can also be O(n) length */
-    size_t main_size = pointer_sizeof(main_string);
     size_t sub_size = pointer_sizeof(substring);
     int i, j, icap;
     /* There is no point in searching when the rest of the main_string is not long enough */
-    icap = main_size - sub_size + 2;
+    icap = pointer_sizeof(main_string) - sub_size + 2;
     bool result;
     for(i = 0; i < icap; i++){
-        if(*main_string == *substring){
+        if(*(main_string + i) == *substring){
             result = true;
-            char* main_temp = main_string;
-            char* sub_temp = substring;
             for(j = 0; j < sub_size; j++){
-                if(*main_temp != *sub_temp){
+                if(*(main_string + i + j) != *(substring + j)){
                     result = false;
                     break;
-                }
-                else{
-                    main_temp = main_temp + 1;
-                    sub_temp = sub_temp + 1;
                 }
             }
             if(result){
                 return true;
             }
         }
-        main_string = main_string + 1;
     }
     return false;
 }
