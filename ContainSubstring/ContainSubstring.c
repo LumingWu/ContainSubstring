@@ -72,12 +72,19 @@ void make_DFA(char substring[]){
             "%zu + 1;\n\tint i = 0;\n\tint state = 0;\n\twhile(i < cap){\n\t\t"
             "switch(state){\n\t\t\t", strlen(substring));
     int i = 0;
+    int accept_state = length - 1;
     while(i < length){
         printf("case %d:\n\t\t\t\tif(string[i] == '%c'){\n\t\t\t\t\t", i, substring[i]);
-        
+        if(i == accept_state){
+            printf("return true;");
+        }
+        else{
+            printf("state = state + 1;");
+        }
         printf("\n\t\t\t\t}\n\t\t\t\telse{\n\t\t\t\t\t");
         
-        printf("\n\t\t\t\t}\n\t\t\t");
+        printf("\n\t\t\t\t}\n\t\t\t\tbreak;\n\t\t\t");
+        i = i + 1;
     }
     printf("\n\t\t}\n\t\ti = i + 1;\n\t}\n\treturn false;\n}");
 }
@@ -96,6 +103,7 @@ bool GIVE_A_NAME(char string[]){
                 else{
                  
                 }
+                break;
             case 1:
                 if(0){
                     
