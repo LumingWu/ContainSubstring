@@ -67,22 +67,44 @@ bool ContainSubstringP_Dummy(char* main_string, char* substring){
  * I chose to print in console because it is easier for me. Return string is great, but there will be a lot of memory allocation.
  */
 void make_DFA(char substring[]){
+    size_t length = strlen(substring);
     printf("bool GIVE_A_NAME(char string[]){\n\tsize_t cap = strlen(string) - "
             "%zu + 1;\n\tint i = 0;\n\tint state = 0;\n\twhile(i < cap){\n\t\t"
             "switch(state){\n\t\t\t", strlen(substring));
-    
+    int i = 0;
+    while(i < length){
+        printf("case %d:\n\t\t\t\tif(string[i] == '%c'){\n\t\t\t\t\t", i, substring[i]);
+        
+        printf("\n\t\t\t\t}\n\t\t\t\telse{\n\t\t\t\t\t");
+        
+        printf("\n\t\t\t\t}\n\t\t\t");
+    }
     printf("\n\t\t}\n\t\ti = i + 1;\n\t}\n\treturn false;\n}");
 }
-/*
+                
+
 bool GIVE_A_NAME(char string[]){
     size_t cap = strlen(string) - 6 + 1;
     int i = 0;
     int state = 0;
     while(i < cap){
         switch(state){
-            case 
+            case 0:
+                if(0){
+                 
+                }
+                else{
+                 
+                }
+            case 1:
+                if(0){
+                    
+                }
+                else{
+                    
+                }
         }
         i = i + 1;
     }
     return false;
-}*/
+}
