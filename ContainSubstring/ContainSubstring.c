@@ -69,53 +69,75 @@ bool ContainSubstringP_Dummy(char* main_string, char* substring){
 void make_DFA(char substring[]){
     size_t length = strlen(substring);
     printf("bool GIVE_A_NAME(char string[]){\n\tsize_t icap = strlen(string) - "
-            "%zu;\n\tint i = 0;\n\tint state = 0;\n\twhile(i < cap){\n\t\t"
+            "%zu;\n\tint i = 0;\n\tint state = 0;\n\twhile(i < icap){\n\t\t"
             "switch(state){\n\t\t\t", length - 1);
     
     /* Start state and accept state needs to be handle differently for performances */
-    printf("case %d:\n\t\t\t\tif(string[i] == '%c'){\n\t\t\t\t\t", 0, substring[0]);
-    printf("state = state + 1;");
-    printf("\n\t\t\t\t}\n\t\t\t\tbreak;\n\t\t\t");
+    if(length > 1){
+        printf("case %d:\n\t\t\t\tif(string[i] == '%c'){\n\t\t\t\t\tstate = state"
+                " + 1;\n\t\t\t\t}\n\t\t\t\tbreak;\n\t\t\t", 0, substring[0]);
+    }
     
     int i = 1;
     int icap = length - 1;
     while(i < icap){
-        printf("case %d:\n\t\t\t\tif(string[i] == '%c'){\n\t\t\t\t\t", i, substring[i]);
-        
-        printf("\n\t\t\t\t}\n\t\t\t\telse{\n\t\t\t\t\t");
+        printf("case %d:\n\t\t\t\tif(string[i] == '%c'){\n\t\t\t\t\tstate "
+                "= state + 1;\n\t\t\t\t}\n\t\t\t\telse{\n\t\t\t\t\t", i, substring[i]);
         
         printf("\n\t\t\t\t}\n\t\t\t\tbreak;\n\t\t\t");
         i = i + 1;
     }
     
     /* Accept state */
-    printf("case %d:\n\t\t\t\tif(string[i] == '%c'){\n\t\t\t\t\t", icap, substring[icap]);
-    printf("return true;\n\t\t\t\t}\n\t\t\t\telse{\n\t\t\t\t\t");
-    
-    printf("\n\t\t\t\t}\n\t\t\t\tbreak;");
-    
-    printf("\n\t\t}\n\t\ti = i + 1;\n\t}\n\treturn false;\n}");
+    printf("case %d:\n\t\t\t\tif(string[i] == '%c'){\n\t\t\t\t\treturn true;"
+            "\n\t\t\t\t}\n\t\t\t\telse{\n\t\t\t\t\t\n\t\t\t\t}\n\t\t\t\tbreak;"
+            "\n\t\t}\n\t\ti = i + 1;\n\t}\n\treturn false;\n}", icap, substring[icap]);
 }  
 
 bool GIVE_A_NAME(char string[]){
-	size_t cap = strlen(string) - 2 + 1;
+	size_t icap = strlen(string) - 5;
 	int i = 0;
 	int state = 0;
-	while(i < cap){
+	while(i < icap){
 		switch(state){
 			case 0:
 				if(string[i] == 'z'){
 					state = state + 1;
 				}
-				else{
-                                    int closeststate = 0;
-                                    int j = state;
-                                    while(j > 0){
-                                        j = j - 1;
-                                    }
-				}
 				break;
 			case 1:
+				if(string[i] == 's'){
+					state = state + 1;
+				}
+				else{
+					
+				}
+				break;
+			case 2:
+				if(string[i] == 'a'){
+					state = state + 1;
+				}
+				else{
+					
+				}
+				break;
+			case 3:
+				if(string[i] == 's'){
+					state = state + 1;
+				}
+				else{
+					
+				}
+				break;
+			case 4:
+				if(string[i] == 'a'){
+					state = state + 1;
+				}
+				else{
+					
+				}
+				break;
+			case 5:
 				if(string[i] == 'd'){
 					return true;
 				}
@@ -123,10 +145,8 @@ bool GIVE_A_NAME(char string[]){
 					
 				}
 				break;
-			
 		}
 		i = i + 1;
 	}
 	return false;
 }
-
