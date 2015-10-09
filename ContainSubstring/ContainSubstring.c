@@ -60,6 +60,12 @@ bool ContainSubstringP_Dummy(char* main_string, char* substring){
     return false;
 }
 
+/* The algorithm is pretty simple. The number of cases is same as the length of the substring
+ * The start state is going to be the first character and accept state is going to be the last character.(Substring, of course)
+ * If the character match, go to next state. If not, use dummy method to find the closest state.
+ * This is not clear unless you know DFA and actually attempted to draw a DFA for a given language.
+ * I chose to print in console because it is easier for me. Return string is great, but there will be a lot of memory allocation.
+ */
 void make_DFA(char substring[]){
     printf("bool GIVE_A_NAME(char string[]){\n\tsize_t cap = strlen(string) - "
             "%zu + 1;\n\tint i = 0;\n\tint state = 0;\n\twhile(i < cap){\n\t\t"
