@@ -60,6 +60,23 @@ bool ContainSubstringP_Dummy(char* main_string, char* substring){
     return false;
 }
 
-bool ContainSubstring_DFA(char main_string[], char substring[]){
+void make_DFA(char substring[]){
+    printf("bool GIVE_A_NAME(char string[]){\n\tsize_t cap = strlen(string) - "
+            "%zu + 1;\n\tint i = 0;\n\tint state = 0;\n\twhile(i < cap){\n\t\t"
+            "switch(state){\n\t\t\t", strlen(substring));
     
+    printf("\n\t\t}\n\t\ti = i + 1;\n\t}\n\treturn false;\n}");
 }
+/*
+bool GIVE_A_NAME(char string[]){
+    size_t cap = strlen(string) - 6 + 1;
+    int i = 0;
+    int state = 0;
+    while(i < cap){
+        switch(state){
+            case 
+        }
+        i = i + 1;
+    }
+    return false;
+}*/
