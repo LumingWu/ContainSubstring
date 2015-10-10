@@ -95,54 +95,43 @@ void make_DFA(char substring[]){
 }  
 
 bool GIVE_A_NAME(char string[]){
-	size_t icap = strlen(string) - 5;
+	size_t icap = strlen(string) - 2;
 	int i = 0;
 	int state = 0;
 	while(i < icap){
 		switch(state){
 			case 0:
-				if(string[i] == 'z'){
-					state = state + 1;
+				if(string[i] == 'd'){
+                                    state = state + 1;
 				}
 				break;
 			case 1:
 				if(string[i] == 's'){
-					state = state + 1;
+                                    state = state + 1;
 				}
 				else{
-					
+                                    if(memcmp(string[i - 1 + 1] , "d", 1) == 0){
+                                        state = 1;
+                                    }
+                                    state = 0;
+                                    break;
 				}
 				break;
 			case 2:
-				if(string[i] == 'a'){
-					state = state + 1;
-				}
-				else{
-					
-				}
-				break;
-			case 3:
 				if(string[i] == 's'){
-					state = state + 1;
+                                    return true;
 				}
 				else{
-					
-				}
-				break;
-			case 4:
-				if(string[i] == 'a'){
-					state = state + 1;
-				}
-				else{
-					
-				}
-				break;
-			case 5:
-				if(string[i] == 'd'){
-					return true;
-				}
-				else{
-					
+                                    if(memcmp(string[i - 2 + 1] , "ds", 2) == 0){
+                                        state = 2;
+                                        break;
+                                    }
+                                    else if(memcmp(string[i - 1 + 1], "d", 1) == 0){
+                                        state = 1;
+                                        break;
+                                    }
+                                    state = 0;
+                                    break;
 				}
 				break;
 		}
