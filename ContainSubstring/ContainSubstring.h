@@ -19,6 +19,11 @@ void make_DFA(char substring[]);
 void makeP_DFA(char* substring);
 
 /**
+ * This function will be define by the console output for testing.
+ **/
+bool GIVE_A_NAME(char string[], char substring[]);
+
+/**
  * A helper method that finds the size of a pointer that points to the beginning of a string.
  * This function expects the string is null temrinated
  * @param string

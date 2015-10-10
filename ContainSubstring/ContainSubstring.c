@@ -68,9 +68,9 @@ bool ContainSubstringP_Dummy(char* main_string, char* substring){
  */
 void make_DFA(char substring[]){
     size_t length = strlen(substring);
-    printf("bool GIVE_A_NAME(char string[]){\n\tsize_t icap = strlen(string) - "
-            "%zu;\n\tint i = 0;\n\tint state = 0;\n\twhile(i < icap){\n\t\t"
-            "switch(state){\n\t\t\t", length - 1);
+    printf("bool GIVE_A_NAME(char string[], char substring[]){\n\tsize_t icap ="
+            " strlen(string) - %zu;\n\tint i = 0, j;\n\tint state = 0;\n\twhile(i "
+            "< icap){\n\t\tswitch(state){\n\t\t\t", length - 1);
     
     /* Start state and accept state needs to be handle differently for performances */
     if(length > 1){
@@ -83,55 +83,72 @@ void make_DFA(char substring[]){
     while(i < icap){
         printf("case %d:\n\t\t\t\tif(string[i] == '%c'){\n\t\t\t\t\tstate "
                 "= state + 1;\n\t\t\t\t}\n\t\t\t\telse{\n\t\t\t\t\t", i, substring[i]);
-        
+        printf("j = state;\n\t\t\t\t\twhile(j > 0){\n\t\t\t\t\t\tif(memcmp"
+                "(string[i - j + 1], substring, j) == 0){\n\t\t\t\t\t\t\tstate = j;"
+                "\n\t\t\t\t\t\t\tbreak;\n\t\t\t\t\t\t}\n\t\t\t\t\t\tj = j - 1;"
+                "\n\t\t\t\t\t}\n\t\t\t\t\tif(j == 0){\n\t\t\t\t\t\tstate = 0;"
+                "\n\t\t\t\t\t}");
         printf("\n\t\t\t\t}\n\t\t\t\tbreak;\n\t\t\t");
         i = i + 1;
     }
     
     /* Accept state */
     printf("case %d:\n\t\t\t\tif(string[i] == '%c'){\n\t\t\t\t\treturn true;"
-            "\n\t\t\t\t}\n\t\t\t\telse{\n\t\t\t\t\t\n\t\t\t\t}\n\t\t\t\tbreak;"
-            "\n\t\t}\n\t\ti = i + 1;\n\t}\n\treturn false;\n}", icap, substring[icap]);
+            "\n\t\t\t\t}\n\t\t\t\telse{\n\t\t\t\t\t", icap, substring[icap]);
+    printf("j = state;\n\t\t\t\t\twhile(j > 0){\n\t\t\t\t\t\tif(memcmp"
+                "(string[i - j + 1], substring, j) == 0){\n\t\t\t\t\t\t\tstate = j;"
+                "\n\t\t\t\t\t\t\tbreak;\n\t\t\t\t\t\t}\n\t\t\t\t\t\tj = j - 1;"
+                "\n\t\t\t\t\t}\n\t\t\t\t\tif(j == 0){\n\t\t\t\t\t\tstate = 0;"
+                "\n\t\t\t\t\t}");
+    printf("\n\t\t\t\t}\n\t\t\t\tbreak;\n\t\t}\n\t\ti = i + 1;\n\t}\n\treturn "
+            "false;\n}");
 }  
 
-bool GIVE_A_NAME(char string[]){
+bool GIVE_A_NAME(char string[], char substring[]){
 	size_t icap = strlen(string) - 2;
-	int i = 0;
+	int i = 0, j;
 	int state = 0;
 	while(i < icap){
 		switch(state){
 			case 0:
 				if(string[i] == 'd'){
-                                    state = state + 1;
+					state = state + 1;
 				}
 				break;
 			case 1:
 				if(string[i] == 's'){
-                                    state = state + 1;
+					state = state + 1;
 				}
 				else{
-                                    if(memcmp(string[i - 1 + 1] , "d", 1) == 0){
-                                        state = 1;
-                                    }
-                                    state = 0;
-                                    break;
+					j = state;
+					while(j > 0){
+						if(memcmp(string[i - j + 1], substring, j) == 0){
+							state = j;
+							break;
+						}
+						j = j - 1;
+					}
+					if(j == 0){
+						state = 0;
+					}
 				}
 				break;
 			case 2:
 				if(string[i] == 's'){
-                                    return true;
+					return true;
 				}
 				else{
-                                    if(memcmp(string[i - 2 + 1] , "ds", 2) == 0){
-                                        state = 2;
-                                        break;
-                                    }
-                                    else if(memcmp(string[i - 1 + 1], "d", 1) == 0){
-                                        state = 1;
-                                        break;
-                                    }
-                                    state = 0;
-                                    break;
+					j = state;
+					while(j > 0){
+						if(memcmp(string[i - j + 1], substring, j) == 0){
+							state = j;
+							break;
+						}
+						j = j - 1;
+					}
+					if(j == 0){
+						state = 0;
+					}
 				}
 				break;
 		}
