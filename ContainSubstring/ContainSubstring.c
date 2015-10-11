@@ -66,9 +66,12 @@ bool ContainSubstringP_Dummy(char* main_string, char* substring){
  * This is not clear unless you know DFA and actually attempted to draw a DFA for a given language.
  * I chose to print in console because it is easier for me. Return string is great, but there will be a lot of memory allocation.
  */
-void make_DFA(char substring[]){
+void make_DFA(char substring[], char symbols[]){
     size_t length = strlen(substring);
-    printf("bool GIVE_A_NAME(char string[], char substring[]){\n\tsize_t icap ="
+    size_t jcap = strlen(symbols);
+    char temp[length];
+    strcpy(temp, substring);
+    printf("bool GIVE_A_NAME(char string[]){\n\tsize_t icap ="
             " strlen(string) - %zu;\n\tint i = 0, j;\n\tint state = 0;\n\twhile(i "
             "< icap){\n\t\tswitch(state){\n\t\t\t", length - 1);
     
@@ -78,81 +81,66 @@ void make_DFA(char substring[]){
                 " + 1;\n\t\t\t\t}\n\t\t\t\tbreak;\n\t\t\t", 0, substring[0]);
     }
     
-    int i = 1;
+    int i = 1, j, k;
     int icap = length - 1;
+    /* i and icap loops through all states except start state and accept state. */
     while(i < icap){
         printf("case %d:\n\t\t\t\tif(string[i] == '%c'){\n\t\t\t\t\tstate "
-                "= state + 1;\n\t\t\t\t}\n\t\t\t\telse{\n\t\t\t\t\t", i, substring[i]);
-        printf("j = state;\n\t\t\t\t\twhile(j > 0){\n\t\t\t\t\t\tif(memcmp"
-                "(string[i - j + 1], substring, j) == 0){\n\t\t\t\t\t\t\tstate = j;"
-                "\n\t\t\t\t\t\t\tbreak;\n\t\t\t\t\t\t}\n\t\t\t\t\t\tj = j - 1;"
-                "\n\t\t\t\t\t}\n\t\t\t\t\tif(j == 0){\n\t\t\t\t\t\tstate = 0;"
-                "\n\t\t\t\t\t}");
-        printf("\n\t\t\t\t}\n\t\t\t\tbreak;\n\t\t\t");
+                "= state + 1;\n\t\t\t\t}\n\t\t\t\telse{\n\t\t\t\t\tswitch{"
+                , i, substring[i]);
+        j = 0;
+        /* j and jcap loops through the set of symbols */
+        while(j < jcap){
+            if(substring[i] == symbols[j]){
+                j = j + 1;
+                continue;
+            }
+            temp[i] = symbols[j];
+            k = 0;
+            /* k loops through all the cases  */
+            while(k < i){
+                if(memcmp(temp + k + 1, substring, i - k) == 0){
+                    printf("\n\t\t\t\t\t\tcase '%c':\n\t\t\t\t\t\t\tstate = %d;", symbols[j], i - k);
+                    break;
+                }
+                k = k + 1;
+            }
+            if(k == i){
+                printf("\n\t\t\t\t\t\tcase '%c':\n\t\t\t\t\t\t\tstate = 0;", symbols[j]);
+            }
+            temp[i] = substring[i];
+            j = j + 1;
+        }
+        printf("\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t\tbreak;\n\t\t\t");
         i = i + 1;
     }
     
     /* Accept state */
     printf("case %d:\n\t\t\t\tif(string[i] == '%c'){\n\t\t\t\t\treturn true;"
-            "\n\t\t\t\t}\n\t\t\t\telse{\n\t\t\t\t\t", icap, substring[icap]);
-    printf("j = state;\n\t\t\t\t\twhile(j > 0){\n\t\t\t\t\t\tif(memcmp"
-                "(string[i - j + 1], substring, j) == 0){\n\t\t\t\t\t\t\tstate = j;"
-                "\n\t\t\t\t\t\t\tbreak;\n\t\t\t\t\t\t}\n\t\t\t\t\t\tj = j - 1;"
-                "\n\t\t\t\t\t}\n\t\t\t\t\tif(j == 0){\n\t\t\t\t\t\tstate = 0;"
-                "\n\t\t\t\t\t}");
+            "\n\t\t\t\t}\n\t\t\t\telse{", icap, substring[icap]);
+    j = 0;
+    /* j and jcap loops through the set of symbols */
+    while(j < jcap){
+        if(substring[i] == symbols[j]){
+            j = j + 1;
+            continue;
+        }
+        temp[i] = symbols[j];
+        k = 0;
+        /* k loops through all the cases  */
+        while(k < i){
+            if(memcmp(temp + k + 1, substring, i - k) == 0){
+                printf("\n\t\t\t\t\t\tcase '%c':\n\t\t\t\t\t\t\tstate = %d;", symbols[j], i - k);
+                break;
+            }
+            k = k + 1;
+        }
+        if(k == i){
+            printf("\n\t\t\t\t\t\tcase '%c':\n\t\t\t\t\t\t\tstate = 0;", symbols[j]);
+        }
+        temp[i] = substring[i];
+        j = j + 1;
+    }
     printf("\n\t\t\t\t}\n\t\t\t\tbreak;\n\t\t}\n\t\ti = i + 1;\n\t}\n\treturn "
             "false;\n}");
 }  
-
-bool GIVE_A_NAME(char string[], char substring[]){
-	size_t icap = strlen(string) - 2;
-	int i = 0, j;
-	int state = 0;
-	while(i < icap){
-		switch(state){
-			case 0:
-				if(string[i] == 'd'){
-					state = state + 1;
-				}
-				break;
-			case 1:
-				if(string[i] == 's'){
-					state = state + 1;
-				}
-				else{
-					j = state;
-					while(j > 0){
-						if(memcmp(string[i - j + 1], substring, j) == 0){
-							state = j;
-							break;
-						}
-						j = j - 1;
-					}
-					if(j == 0){
-						state = 0;
-					}
-				}
-				break;
-			case 2:
-				if(string[i] == 's'){
-					return true;
-				}
-				else{
-					j = state;
-					while(j > 0){
-						if(memcmp(string[i - j + 1], substring, j) == 0){
-							state = j;
-							break;
-						}
-						j = j - 1;
-					}
-					if(j == 0){
-						state = 0;
-					}
-				}
-				break;
-		}
-		i = i + 1;
-	}
-	return false;
-}
