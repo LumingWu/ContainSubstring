@@ -71,23 +71,24 @@ void make_DFA(char substring[], char symbols[]){
     size_t jcap = strlen(symbols);
     char temp[length];
     strcpy(temp, substring);
-    printf("bool GIVE_A_NAME(char string[]){\n\tsize_t icap ="
-            " strlen(string) - %zu;\n\tint i = 0, j;\n\tint state = 0;\n\twhile(i "
+    printf("bool GIVE_A_NAME(char string[]){\n\tsize_t icap = strlen(string) "
+            "- %zu;\n\tchar c;\n\tint i = 0, j;\n\tint state = 0;\n\twhile(i "
             "< icap){\n\t\tswitch(state){\n\t\t\t", length - 1);
     
     /* Start state and accept state needs to be handle differently for performances */
     if(length > 1){
-        printf("case %d:\n\t\t\t\tif(string[i] == '%c'){\n\t\t\t\t\tstate = state"
-                " + 1;\n\t\t\t\t}\n\t\t\t\tbreak;\n\t\t\t", 0, substring[0]);
+        printf("case %d:\n\t\t\t\tc = string[i];\n\t\t\t\tif(c == '%c'){\n\t"
+                "\t\t\t\tstate = state + 1;\n\t\t\t\t}\n\t\t\t\tbreak;\n\t\t"
+                "\t", 0, substring[0]);
     }
     
     int i = 1, j, k;
     int icap = length - 1;
     /* i and icap loops through all states except start state and accept state. */
     while(i < icap){
-        printf("case %d:\n\t\t\t\tif(string[i] == '%c'){\n\t\t\t\t\tstate "
-                "= state + 1;\n\t\t\t\t}\n\t\t\t\telse{\n\t\t\t\t\tswitch{"
-                , i, substring[i]);
+        printf("case %d:\n\t\t\t\tc = string[i];\n\t\t\t\tif(c == '%c'){\n\t"
+                "\t\t\t\tstate = state + 1;\n\t\t\t\t}\n\t\t\t\telse{\n\t\t\t"
+                "\t\tswitch(c){", i, substring[i]);
         j = 0;
         /* j and jcap loops through the set of symbols */
         while(j < jcap){
@@ -116,8 +117,8 @@ void make_DFA(char substring[], char symbols[]){
     }
     
     /* Accept state */
-    printf("case %d:\n\t\t\t\tif(string[i] == '%c'){\n\t\t\t\t\treturn true;"
-            "\n\t\t\t\t}\n\t\t\t\telse{", icap, substring[icap]);
+    printf("case %d:\n\t\t\t\tc = string[i];\n\t\t\t\tif(c == '%c'){\n\t\t\t"
+            "\t\treturn true;\n\t\t\t\t}\n\t\t\t\telse{\n\t\t\t\t\tswitch(c){", icap, substring[icap]);
     j = 0;
     /* j and jcap loops through the set of symbols */
     while(j < jcap){
@@ -141,6 +142,97 @@ void make_DFA(char substring[], char symbols[]){
         temp[i] = substring[i];
         j = j + 1;
     }
-    printf("\n\t\t\t\t}\n\t\t\t\tbreak;\n\t\t}\n\t\ti = i + 1;\n\t}\n\treturn "
-            "false;\n}");
-}  
+    printf("\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t\tbreak;\n\t\t}\n\t\ti = i + 1;\n"
+            "\t}\n\treturn false;\n}");
+}
+
+bool GIVE_A_NAME(char string[]){
+	size_t icap = strlen(string) - 6;
+	char c;
+	int i = 0, j;
+	int state = 0;
+	while(i < icap){
+		switch(state){
+			case 0:
+				c = string[i];
+				if(c == '0'){
+					state = state + 1;
+				}
+				break;
+			case 1:
+				c = string[i];
+				if(c == '1'){
+					state = state + 1;
+				}
+				else{
+					switch(c){
+						case '0':
+							state = 1;
+					}
+				}
+				break;
+			case 2:
+				c = string[i];
+				if(c == '0'){
+					state = state + 1;
+				}
+				else{
+					switch(c){
+						case '1':
+							state = 0;
+					}
+				}
+				break;
+			case 3:
+				c = string[i];
+				if(c == '1'){
+					state = state + 1;
+				}
+				else{
+					switch(c){
+						case '0':
+							state = 1;
+					}
+				}
+				break;
+			case 4:
+				c = string[i];
+				if(c == '0'){
+					state = state + 1;
+				}
+				else{
+					switch(c){
+						case '1':
+							state = 0;
+					}
+				}
+				break;
+			case 5:
+				c = string[i];
+				if(c == '0'){
+					state = state + 1;
+				}
+				else{
+					switch(c){
+						case '1':
+							state = 4;
+					}
+				}
+				break;
+			case 6:
+				c = string[i];
+				if(c == '1'){
+					return true;
+				}
+				else{
+					switch(c){
+						case '0':
+							state = 1;
+					}
+				}
+				break;
+		}
+		i = i + 1;
+	}
+	return false;
+}
