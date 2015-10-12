@@ -7,13 +7,10 @@
  * This main is just a format for testing the method.
  **/
 int main(int argc, char** argv) {
-    char* string1 = "saskdsskdjaskdjasdmasos";
+    char* string1 = "10101000101001";
     char* string2 = "0101001";
-    //printf("%s\n", memcmp(string1 + 4,"dss", 3) == 0? "true" : "false");
-    //printf("The first string is: %s\nThe second string is: %s\nThe answer is %s\n", string1, string2, 
-    //        ContainSubstring_Dummy(string1,string2)? "true" : "false");
-    make_DFA(string2, BINARY_STRING_SYMBOLS);
-    //printf("%s\n", GIVE_A_NAME(string1, string2)? "true" : "false");
+    printf("%s\n", GIVE_A_NAME(string1)? "true" : "false");
+    //make_DFA(string2, BINARY_STRING_SYMBOLS);
     return (EXIT_SUCCESS);
 }
 

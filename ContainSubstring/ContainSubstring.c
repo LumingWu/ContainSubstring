@@ -13,7 +13,7 @@ size_t pointer_sizeof(char* string){
     return size;
 }
 
-bool ContainSubstring_Dummy(char main_string[], char substring[]){
+bool containSubstring_Dummy(char main_string[], char substring[]){
     /* This is similar to the pointer version, much shorter and simpler */
     size_t sub_length = strlen(substring);
     int i, j, icap;
@@ -36,7 +36,7 @@ bool ContainSubstring_Dummy(char main_string[], char substring[]){
     return false;
 }
 
-bool ContainSubstringP_Dummy(char* main_string, char* substring){
+bool containSubstringP_Dummy(char* main_string, char* substring){
     /* I find it is better to find the size first when substring can also be O(n) length */
     size_t sub_length = pointer_sizeof(substring);
     int i, j, icap;
@@ -71,24 +71,24 @@ void make_DFA(char substring[], char symbols[]){
     size_t jcap = strlen(symbols);
     char temp[length];
     strcpy(temp, substring);
-    printf("bool GIVE_A_NAME(char string[]){\n\tsize_t icap = strlen(string) "
-            "- %zu;\n\tchar c;\n\tint i = 0, j;\n\tint state = 0;\n\twhile(i "
-            "< icap){\n\t\tswitch(state){\n\t\t\t", length - 1);
+    printf("%s", HEADER);
     
     /* Start state and accept state needs to be handle differently for performances */
     if(length > 1){
-        printf("case %d:\n\t\t\t\tc = string[i];\n\t\t\t\tif(c == '%c'){\n\t"
-                "\t\t\t\tstate = state + 1;\n\t\t\t\t}\n\t\t\t\tbreak;\n\t\t"
-                "\t", 0, substring[0]);
+        printf("%s", START_NOT_ACCEPT_1);
+        printf("%c", substring[0]);
+        printf("%s", START_NOT_ACCEPT_2);
     }
     
     int i = 1, j, k;
     int icap = length - 1;
     /* i and icap loops through all states except start state and accept state. */
     while(i < icap){
-        printf("case %d:\n\t\t\t\tc = string[i];\n\t\t\t\tif(c == '%c'){\n\t"
-                "\t\t\t\tstate = state + 1;\n\t\t\t\t}\n\t\t\t\telse{\n\t\t\t"
-                "\t\tswitch(c){", i, substring[i]);
+        printf("%s", TRANSITION1);
+        printf("%d", i);
+        printf("%s", TRANSITION2);
+        printf("%c", substring[i]);
+        printf("%s", TRANSITION3);
         j = 0;
         /* j and jcap loops through the set of symbols */
         while(j < jcap){
@@ -101,24 +101,33 @@ void make_DFA(char substring[], char symbols[]){
             /* k loops through all the cases  */
             while(k < i){
                 if(memcmp(temp + k + 1, substring, i - k) == 0){
-                    printf("\n\t\t\t\t\t\tcase '%c':\n\t\t\t\t\t\t\tstate = %d;", symbols[j], i - k);
+                    printf("%s", BEST_STATE_OPEN);
+                    printf("%c", symbols[j]);
+                    printf("%s", BEST_STATE_FOUND_1);
+                    printf("%d", i - k);
+                    printf("%s", BEST_STATE_FOUND_2);
                     break;
                 }
                 k = k + 1;
             }
             if(k == i){
-                printf("\n\t\t\t\t\t\tcase '%c':\n\t\t\t\t\t\t\tstate = 0;", symbols[j]);
+                printf("%s", BEST_STATE_OPEN);
+                printf("%c", symbols[j]);
+                printf("%s", BEST_STATE_NOT_FOUND);
             }
             temp[i] = substring[i];
             j = j + 1;
         }
-        printf("\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t\tbreak;\n\t\t\t");
+        printf("%s", TRANSITION_END);
         i = i + 1;
     }
     
-    /* Accept state */
-    printf("case %d:\n\t\t\t\tc = string[i];\n\t\t\t\tif(c == '%c'){\n\t\t\t"
-            "\t\treturn true;\n\t\t\t\t}\n\t\t\t\telse{\n\t\t\t\t\tswitch(c){", icap, substring[icap]);
+    /* Accept state. Also treated as transition state.*/
+    printf("%s", TRANSITION1);
+    printf("%d", icap);
+    printf("%s", TRANSITION2);
+    printf("%c", substring[icap]);
+    printf("%s", ACCEPT_STATE_TRANSITION_3);
     j = 0;
     /* j and jcap loops through the set of symbols */
     while(j < jcap){
@@ -131,25 +140,30 @@ void make_DFA(char substring[], char symbols[]){
         /* k loops through all the cases  */
         while(k < i){
             if(memcmp(temp + k + 1, substring, i - k) == 0){
-                printf("\n\t\t\t\t\t\tcase '%c':\n\t\t\t\t\t\t\tstate = %d;", symbols[j], i - k);
+                printf("%s", BEST_STATE_OPEN);
+                printf("%c", symbols[j]);
+                printf("%s", BEST_STATE_FOUND_1);
+                printf("%d", i - k);
+                printf("%s", BEST_STATE_FOUND_2);
                 break;
             }
             k = k + 1;
         }
         if(k == i){
-            printf("\n\t\t\t\t\t\tcase '%c':\n\t\t\t\t\t\t\tstate = 0;", symbols[j]);
+            printf("%s", BEST_STATE_OPEN);
+            printf("%c", symbols[j]);
+            printf("%s", BEST_STATE_NOT_FOUND);
         }
         temp[i] = substring[i];
         j = j + 1;
     }
-    printf("\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t\tbreak;\n\t\t}\n\t\ti = i + 1;\n"
-            "\t}\n\treturn false;\n}");
+    printf("%s", FOOTER);
 }
 
 bool GIVE_A_NAME(char string[]){
-	size_t icap = strlen(string) - 6;
+	size_t icap = strlen(string);
 	char c;
-	int i = 0, j;
+	int i = 0;
 	int state = 0;
 	while(i < icap){
 		switch(state){
