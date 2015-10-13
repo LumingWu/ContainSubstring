@@ -9,4 +9,4 @@ It should be the fastest contain() function that specific substring.
 /* I think i am confused here */
 It is useful when a user often search for a specific substring. Similar to the idea of a cache, just have a set of substrings that the user searched. For a certain requirments, create such DFA and run it for next run. And the DFA can be store in a hashtable.
 
-IDE - Netbean, Compiler - Cygwin
+IDE - Netbean, Compiler - gcc
