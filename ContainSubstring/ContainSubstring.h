@@ -39,8 +39,8 @@ bool containSubstringP_Dummy(char* main_string, char* substring);
  * @param substring
  * @return true if the main string contains the substring. Otherwise, false.
  */
-void make_DFA(char substring[], char symbols[]);
-void makeP_DFA(char* substring);
+void print_containSubtring_DFA(char substring[], char symbols[]);
+char* make_containSubstring_DFA(char substring[], char symbols[]);
 
 /**
  * This function will be define by the console output for testing.
@@ -54,7 +54,18 @@ bool GIVE_A_NAME(char string[]);
  * @return the size of the string.
  */
 size_t pointer_sizeof(char* string);
-
+/**
+ * Another helper function to get the length of the integer if it is parsed into a string.
+ * @param integer
+ * @return length of the interger.
+ */
+size_t int_strlen(int integer);
+/**
+ * Parse a integer to an string.
+ * @param integer
+ * @return a string.
+ */
+char* int_tostr(int integer);
 #ifdef	__cplusplus
 extern "C" {
 #endif
