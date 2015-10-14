@@ -65,12 +65,19 @@ bool containSubstringP_Dummy(char* main_string, char* substring){
  * If the character match, go to next state. If not, use dummy method to find the closest state.
  * This is not clear unless you know DFA and actually attempted to draw a DFA for a given language.
  */
-void print_containString_DFA(char substring[], char symbols[]){
+void print_containString_DFA(char substring[], char symbols[], char name[]){
     size_t length = strlen(substring);
     size_t jcap = strlen(symbols);
     char temp[length];
     strcpy(temp, substring);
-    printf("%s", HEADER);
+    printf("%s", HEADER1);
+    if(name == NULL){
+        printf("%s", DEFAULT_NAME);
+    }
+    else{
+        printf("%s", name);
+    }
+    printf("%s", HEADER2);
     
     /* Start state and accept state needs to be handle differently for performances */
     if(length > 1){
@@ -278,12 +285,24 @@ char* int_tostr(int integer){
     return string;
 }
 
-char* make_containSubstring_DFA(char substring[], char symbols[]){
+char* make_containSubstring_DFA(char substring[], char symbols[], char name[]){
     size_t length = strlen(substring);
     size_t jcap = strlen(symbols);
     char temp[length];
     strcpy(temp, substring);
-    size_t allocate = 139;
+    char* _name;
+    size_t allocate;
+    size_t name_length;
+    if(name == NULL){
+        _name = DEFAULT_NAME;
+        name_length = 11;
+        allocate = 139;
+    }
+    else{
+        _name = name;
+        name_length = strlen(name);
+        allocate = 128 + name_length;
+    }
     if(length > 1){
         allocate = allocate + 89;
     }
@@ -352,8 +371,12 @@ char* make_containSubstring_DFA(char substring[], char symbols[]){
     char* dfa = (char*)malloc(sizeof(char) * allocate);
     char* writer = dfa;
     char* pointer;
-    memcpy(writer, HEADER, 139);
-    writer = writer + 139;
+    memcpy(writer, HEADER1, 5);
+    writer = writer + 5;
+    memcpy(writer, _name, name_length);
+    writer = writer + name_length;
+    memcpy(writer, HEADER2, 123);
+    writer = writer + 123;
     if(length > 1){
         memcpy(writer, START_NOT_ACCEPT_1, 40);
         writer = writer + 40;

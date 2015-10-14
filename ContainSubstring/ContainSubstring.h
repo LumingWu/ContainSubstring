@@ -6,7 +6,9 @@
 #define LOWER_CASE_ALPHABET_SYMBOLS "abcdefghijklmnopqrstuvwxyz"
 #define UPPER_CASE_ALPHABET_SYMBOLS "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
-#define HEADER "bool GIVE_A_NAME(char string[]){\n\tsize_t icap = strlen(string);\n\tchar c;\n\tint i = 0;\n\tint state = 0;\n\twhile(i < icap){\n\t\tswitch(state){\n\t\t\t"
+#define HEADER1 "bool "
+#define DEFAULT_NAME "GIVE_A_NAME"
+#define HEADER2 "(char string[]){\n\tsize_t icap = strlen(string);\n\tchar c;\n\tint i = 0;\n\tint state = 0;\n\twhile(i < icap){\n\t\tswitch(state){\n\t\t\t"
 
 #define START_NOT_ACCEPT_1 "case 0:\n\t\t\t\tc = string[i];\n\t\t\t\tif(c == '"
 #define START_NOT_ACCEPT_2 "'){\n\t\t\t\t\tstate = state + 1;\n\t\t\t\t}\n\t\t\t\tbreak;\n\t\t\t"
@@ -39,8 +41,8 @@ bool containSubstringP_Dummy(char* main_string, char* substring);
  * @param substring
  * @return true if the main string contains the substring. Otherwise, false.
  */
-void print_containSubtring_DFA(char substring[], char symbols[]);
-char* make_containSubstring_DFA(char substring[], char symbols[]);
+void print_containSubtring_DFA(char substring[], char symbols[], char name[]);
+char* make_containSubstring_DFA(char substring[], char symbols[], char name[]);
 
 /**
  * This function will be define by the console output for testing.
