@@ -285,6 +285,17 @@ char* int_tostr(int integer){
     return string;
 }
 
+int reverse_memcmp(char* string1, char* string2, int n){
+    int _n = n - 1;
+    while(_n > -1){
+        if(*(string1 + _n) != *(string2 + _n)){
+            return -1;
+        }
+        _n = _n - 1;
+    }
+    return 0;
+}
+
 char* make_containSubstring_DFA(char substring[], char symbols[], char name[]){
     size_t length = strlen(substring);
     size_t jcap = strlen(symbols);
@@ -322,7 +333,7 @@ char* make_containSubstring_DFA(char substring[], char symbols[], char name[]){
             temp[i] = symbols[j];
             k = 0;
             while(k < i){
-                if(memcmp(temp + k + 1, substring, i - k) == 0){
+                if(reverse_memcmp(temp + k + 1, substring, i - k) == 0){
                     numbers[i][j] = i - k;
                     found[i][j] = true;
                     allocate = allocate + 33 + int_strlen(i - k);
@@ -350,7 +361,7 @@ char* make_containSubstring_DFA(char substring[], char symbols[], char name[]){
         temp[i] = symbols[j];
         k = 0;
         while(k < i){
-            if(memcmp(temp + k + 1, substring, i - k) == 0){
+            if(reverse_memcmp(temp + k + 1, substring, i - k) == 0){
                 numbers[i][j] = i - k;
                 found[i][j] = true;
                 allocate = allocate + 33 + int_strlen(i - k);

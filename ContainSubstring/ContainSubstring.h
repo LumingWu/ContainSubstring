@@ -68,6 +68,14 @@ size_t int_strlen(int integer);
  * @return a string.
  */
 char* int_tostr(int integer);
+/**
+ * Check memory backward from the back of the string.
+ * @param string1
+ * @param string2
+ * @param n
+ * @return 0 if same, -1 otherwise.
+ */
+int reverse_memcmp(char* string1, char* string2, int n);
 #ifdef	__cplusplus
 extern "C" {
 #endif

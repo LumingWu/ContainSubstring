@@ -11,7 +11,7 @@ int main(int argc, char** argv) {
     char* string2 = "0101001";
     //printf("%s\n", containSubstring_Dummy(string1, string2)? "true" : "false");
     //printf("%s\n", GIVE_A_NAME(string1)? "true" : "false");
-    char* string = (char*)make_containSubstring_DFA(string2, BINARY_STRING_SYMBOLS, "Muhahaha");
+    char* string = make_containSubstring_DFA(string2, BINARY_STRING_SYMBOLS, "1234567");
     printf("%s\n", string);
     free(string);
     return (EXIT_SUCCESS);
