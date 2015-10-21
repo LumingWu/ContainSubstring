@@ -78,6 +78,8 @@ void print_containString_DFA(char substring[], char symbols[], char name[]){
         printf("%s", name);
     }
     printf("%s", HEADER2);
+    printf("%zu", length);
+    printf("%s", HEADER3);
     
     /* Start state and accept state needs to be handle differently for performances */
     if(length > 1){
@@ -167,97 +169,6 @@ void print_containString_DFA(char substring[], char symbols[], char name[]){
     printf("%s", FOOTER);
 }
 
-bool GIVE_A_NAME(char string[]){
-	size_t icap = strlen(string);
-	char c;
-	int i = 0;
-	int state = 0;
-	while(i < icap){
-		switch(state){
-			case 0:
-				c = string[i];
-				if(c == '0'){
-					state = state + 1;
-				}
-				break;
-			case 1:
-				c = string[i];
-				if(c == '1'){
-					state = state + 1;
-				}
-				else{
-					switch(c){
-						case '0':
-							state = 1;
-					}
-				}
-				break;
-			case 2:
-				c = string[i];
-				if(c == '0'){
-					state = state + 1;
-				}
-				else{
-					switch(c){
-						case '1':
-							state = 0;
-					}
-				}
-				break;
-			case 3:
-				c = string[i];
-				if(c == '1'){
-					state = state + 1;
-				}
-				else{
-					switch(c){
-						case '0':
-							state = 1;
-					}
-				}
-				break;
-			case 4:
-				c = string[i];
-				if(c == '0'){
-					state = state + 1;
-				}
-				else{
-					switch(c){
-						case '1':
-							state = 0;
-					}
-				}
-				break;
-			case 5:
-				c = string[i];
-				if(c == '0'){
-					state = state + 1;
-				}
-				else{
-					switch(c){
-						case '1':
-							state = 4;
-					}
-				}
-				break;
-			case 6:
-				c = string[i];
-				if(c == '1'){
-					return true;
-				}
-				else{
-					switch(c){
-						case '0':
-							state = 1;
-					}
-				}
-				break;
-		}
-		i = i + 1;
-	}
-	return false;
-}
-
 size_t int_strlen(int integer){
     if(integer < 10){
         return 1;
@@ -307,12 +218,12 @@ char* make_containSubstring_DFA(char substring[], char symbols[], char name[]){
     if(name == NULL){
         _name = DEFAULT_NAME;
         name_length = 11;
-        allocate = 139;
+        allocate = 193 + int_strlen(length);
     }
     else{
         _name = name;
         name_length = strlen(name);
-        allocate = 128 + name_length;
+        allocate = 182 + name_length + int_strlen(length);
     }
     if(length > 1){
         allocate = allocate + 89;
@@ -378,16 +289,22 @@ char* make_containSubstring_DFA(char substring[], char symbols[], char name[]){
         j = j + 1;
     }
     allocate = allocate + 62;
+    /*printf("Allocated: %d\n", allocate);*/
     /* Writing part of this function */
     char* dfa = (char*)malloc(sizeof(char) * allocate);
     char* writer = dfa;
-    char* pointer;
+    char* pointer = int_tostr(length);
     memcpy(writer, HEADER1, 5);
     writer = writer + 5;
     memcpy(writer, _name, name_length);
     writer = writer + name_length;
     memcpy(writer, HEADER2, 123);
     writer = writer + 123;
+    memcpy(writer, pointer, int_strlen(length));
+    free(pointer);
+    writer = writer + int_strlen(length);
+    memcpy(writer, HEADER3, 54);
+    writer = writer + 54;
     if(length > 1){
         memcpy(writer, START_NOT_ACCEPT_1, 40);
         writer = writer + 40;

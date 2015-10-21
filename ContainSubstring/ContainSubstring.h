@@ -8,7 +8,8 @@
 
 #define HEADER1 "bool "
 #define DEFAULT_NAME "GIVE_A_NAME"
-#define HEADER2 "(char string[]){\n\tsize_t icap = strlen(string);\n\tchar c;\n\tint i = 0;\n\tint state = 0;\n\twhile(i < icap){\n\t\tswitch(state){\n\t\t\t"
+#define HEADER2 "(char string[]){\n\tsize_t icap = strlen(string);\n\tchar c;\n\tint i = 0;\n\tint state = 0;\n\twhile(i < icap){\n\t\tif( (icap - i) < ("
+#define HEADER3 " - state) ){\n\t\t\treturn false;\n\t\t}\n\t\tswitch(state){\n\t\t\t"
 
 #define START_NOT_ACCEPT_1 "case 0:\n\t\t\t\tc = string[i];\n\t\t\t\tif(c == '"
 #define START_NOT_ACCEPT_2 "'){\n\t\t\t\t\tstate = state + 1;\n\t\t\t\t}\n\t\t\t\tbreak;\n\t\t\t"
