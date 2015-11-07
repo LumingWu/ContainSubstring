@@ -77,6 +77,8 @@ char* int_tostr(int integer);
  * @return 0 if same, -1 otherwise.
  */
 int reverse_memcmp(char* string1, char* string2, int n);
+
+bool GIVE_A_NAME(char string[]);
 #ifdef	__cplusplus
 extern "C" {
 #endif

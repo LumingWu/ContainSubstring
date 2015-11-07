@@ -289,43 +289,44 @@ char* make_containSubstring_DFA(char substring[], char symbols[], char name[]){
         j = j + 1;
     }
     allocate = allocate + 62;
-    /*printf("Allocated: %d\n", allocate);*/
+    printf("Allocated: %d\n", allocate);
     /* Writing part of this function */
-    char* dfa = (char*)malloc(sizeof(char) * allocate);
+    size_t char_size = sizeof(char);
+    char* dfa = (char*)malloc(char_size * allocate);
     char* writer = dfa;
     char* pointer = int_tostr(length);
-    memcpy(writer, HEADER1, 5);
+    memcpy(writer, HEADER1, char_size * 5);
     writer = writer + 5;
-    memcpy(writer, _name, name_length);
+    memcpy(writer, _name, char_size * name_length);
     writer = writer + name_length;
-    memcpy(writer, HEADER2, 123);
+    memcpy(writer, HEADER2, char_size * 123);
     writer = writer + 123;
-    memcpy(writer, pointer, int_strlen(length));
+    memcpy(writer, pointer, char_size * int_strlen(length));
     free(pointer);
     writer = writer + int_strlen(length);
-    memcpy(writer, HEADER3, 54);
+    memcpy(writer, HEADER3, char_size * 54);
     writer = writer + 54;
     if(length > 1){
-        memcpy(writer, START_NOT_ACCEPT_1, 40);
+        memcpy(writer, START_NOT_ACCEPT_1, char_size * 40);
         writer = writer + 40;
-        memcpy(writer, &substring[0], 1);
+        memcpy(writer, &substring[0], char_size);
         writer = writer + 1;
-        memcpy(writer, START_NOT_ACCEPT_2, 48);
+        memcpy(writer, START_NOT_ACCEPT_2, char_size * 48);
         writer = writer + 48;
     }
     i = 1;
     while(i < icap){
-        memcpy(writer, TRANSITION1, 5);
+        memcpy(writer, TRANSITION1, char_size * 5);
         writer = writer + 5;
         pointer = int_tostr(i);
-        memcpy(writer, pointer, int_strlen(i));
+        memcpy(writer, pointer, char_size * int_strlen(i));
         free(pointer);
         writer = writer + int_strlen(i);
-        memcpy(writer, TRANSITION2, 34);
+        memcpy(writer, TRANSITION2, char_size * 34);
         writer = writer + 34;
-        memcpy(writer, &substring[i], 1);
+        memcpy(writer, &substring[i], char_size);
         writer = writer + 1;
-        memcpy(writer, TRANSITION3, 59);
+        memcpy(writer, TRANSITION3, char_size * 59);
         writer = writer + 59;
         j = 0;
         while(j < jcap){
@@ -334,44 +335,44 @@ char* make_containSubstring_DFA(char substring[], char symbols[], char name[]){
                 continue;
             }
             if(found[i][j]){
-                memcpy(writer, BEST_STATE_OPEN, 13);
+                memcpy(writer, BEST_STATE_OPEN, char_size * 13);
                 writer = writer + 13;
-                memcpy(writer, &symbols[j], 1);
+                memcpy(writer, &symbols[j], char_size);
                 writer = writer + 1;
-                memcpy(writer, BEST_STATE_FOUND_1, 18);
+                memcpy(writer, BEST_STATE_FOUND_1, char_size * 18);
                 writer = writer + 18;
                 pointer = int_tostr(numbers[i][j]);
-                memcpy(writer, pointer, int_strlen(numbers[i][j]));
+                memcpy(writer, pointer, char_size * int_strlen(numbers[i][j]));
                 free(pointer);
                 writer = writer + int_strlen(numbers[i][j]);
-                memcpy(writer, BEST_STATE_FOUND_2, 1);
+                memcpy(writer, BEST_STATE_FOUND_2, char_size);
                 writer = writer + 1;
             }
             else{
-                memcpy(writer, BEST_STATE_OPEN, 13);
+                memcpy(writer, BEST_STATE_OPEN, char_size * 13);
                 writer = writer + 13;
-                memcpy(writer, &symbols[j], 1);
+                memcpy(writer, &symbols[j], char_size);
                 writer = writer + 1;
                 memcpy(writer, BEST_STATE_NOT_FOUND, 20);
                 writer = writer + 20;
             }
             j = j + 1;
         }
-        memcpy(writer, TRANSITION_END, 28);
+        memcpy(writer, TRANSITION_END, char_size * 28);
         writer = writer + 28;
         i = i + 1;
     }
-    memcpy(writer, TRANSITION1, 5);
+    memcpy(writer, TRANSITION1, char_size * 5);
     writer = writer + 5;
     pointer = int_tostr(i);
-    memcpy(writer, pointer, int_strlen(i));
+    memcpy(writer, pointer, char_size * int_strlen(i));
     free(pointer);
     writer = writer + int_strlen(i);
-    memcpy(writer, TRANSITION2, 34);
+    memcpy(writer, TRANSITION2, char_size * 34);
     writer = writer + 34;
-    memcpy(writer, &substring[icap], 1);
+    memcpy(writer, &substring[icap], char_size);
     writer = writer + 1;
-    memcpy(writer, ACCEPT_STATE_TRANSITION_3, 53);
+    memcpy(writer, ACCEPT_STATE_TRANSITION_3, char_size * 53);
     writer = writer + 53;
     j = 0;
     while(j < jcap){
@@ -380,31 +381,593 @@ char* make_containSubstring_DFA(char substring[], char symbols[], char name[]){
             continue;
         }
         if(found[i][j]){
-            memcpy(writer, BEST_STATE_OPEN, 13);
+            memcpy(writer, BEST_STATE_OPEN, char_size * 13);
             writer = writer + 13;
-            memcpy(writer, &symbols[j], 1);
+            memcpy(writer, &symbols[j], char_size);
             writer = writer + 1;
-            memcpy(writer, BEST_STATE_FOUND_1, 18);
+            memcpy(writer, BEST_STATE_FOUND_1, char_size * 18);
             writer = writer + 18;
             pointer = int_tostr(numbers[i][j]);
-            memcpy(writer, pointer, int_strlen(numbers[i][j]));
+            memcpy(writer, pointer, char_size * int_strlen(numbers[i][j]));
             free(pointer);
             writer = writer + int_strlen(numbers[i][j]);
-            memcpy(writer, BEST_STATE_FOUND_2, 1);
+            memcpy(writer, BEST_STATE_FOUND_2, char_size);
             writer = writer + 1;
         }
         else{
-            memcpy(writer, BEST_STATE_OPEN, 13);
+            memcpy(writer, BEST_STATE_OPEN, char_size * 13);
             writer = writer + 13;
-            memcpy(writer, &symbols[j], 1);
+            memcpy(writer, &symbols[j], char_size);
             writer = writer + 1;
-            memcpy(writer, BEST_STATE_NOT_FOUND, 20);
+            memcpy(writer, BEST_STATE_NOT_FOUND, char_size * 20);
             writer = writer + 20;
         }
         j = j + 1;
     }
-    memcpy(writer, FOOTER, 61);
+    memcpy(writer, FOOTER, char_size * 61);
     writer = writer + 61;
     *writer = '\0';
     return dfa;
+}
+
+bool GIVE_A_NAME(char string[]){
+	size_t icap = strlen(string);
+	char c;
+	int i = 0;
+	int state = 0;
+	while(i < icap){
+		if( (icap - i) < (10 - state) ){
+			return false;
+		}
+		switch(state){
+			case 0:
+				c = string[i];
+				if(c == 'C'){
+					state = state + 1;
+				}
+				break;
+			case 1:
+				c = string[i];
+				if(c == 'B'){
+					state = state + 1;
+				}
+				else{
+					switch(c){
+						case 'A':
+							state = 0;
+						case 'C':
+							state = 1;
+						case 'D':
+							state = 0;
+						case 'E':
+							state = 0;
+						case 'F':
+							state = 0;
+						case 'G':
+							state = 0;
+						case 'H':
+							state = 0;
+						case 'I':
+							state = 0;
+						case 'J':
+							state = 0;
+						case 'K':
+							state = 0;
+						case 'L':
+							state = 0;
+						case 'M':
+							state = 0;
+						case 'N':
+							state = 0;
+						case 'O':
+							state = 0;
+						case 'P':
+							state = 0;
+						case 'Q':
+							state = 0;
+						case 'R':
+							state = 0;
+						case 'S':
+							state = 0;
+						case 'T':
+							state = 0;
+						case 'U':
+							state = 0;
+						case 'V':
+							state = 0;
+						case 'W':
+							state = 0;
+						case 'X':
+							state = 0;
+						case 'Y':
+							state = 0;
+						case 'Z':
+							state = 0;
+					}
+				}
+				break;
+			case 2:
+				c = string[i];
+				if(c == 'A'){
+					state = state + 1;
+				}
+				else{
+					switch(c){
+						case 'B':
+							state = 0;
+						case 'C':
+							state = 1;
+						case 'D':
+							state = 0;
+						case 'E':
+							state = 0;
+						case 'F':
+							state = 0;
+						case 'G':
+							state = 0;
+						case 'H':
+							state = 0;
+						case 'I':
+							state = 0;
+						case 'J':
+							state = 0;
+						case 'K':
+							state = 0;
+						case 'L':
+							state = 0;
+						case 'M':
+							state = 0;
+						case 'N':
+							state = 0;
+						case 'O':
+							state = 0;
+						case 'P':
+							state = 0;
+						case 'Q':
+							state = 0;
+						case 'R':
+							state = 0;
+						case 'S':
+							state = 0;
+						case 'T':
+							state = 0;
+						case 'U':
+							state = 0;
+						case 'V':
+							state = 0;
+						case 'W':
+							state = 0;
+						case 'X':
+							state = 0;
+						case 'Y':
+							state = 0;
+						case 'Z':
+							state = 0;
+					}
+				}
+				break;
+			case 3:
+				c = string[i];
+				if(c == 'B'){
+					state = state + 1;
+				}
+				else{
+					switch(c){
+						case 'A':
+							state = 0;
+						case 'C':
+							state = 1;
+						case 'D':
+							state = 0;
+						case 'E':
+							state = 0;
+						case 'F':
+							state = 0;
+						case 'G':
+							state = 0;
+						case 'H':
+							state = 0;
+						case 'I':
+							state = 0;
+						case 'J':
+							state = 0;
+						case 'K':
+							state = 0;
+						case 'L':
+							state = 0;
+						case 'M':
+							state = 0;
+						case 'N':
+							state = 0;
+						case 'O':
+							state = 0;
+						case 'P':
+							state = 0;
+						case 'Q':
+							state = 0;
+						case 'R':
+							state = 0;
+						case 'S':
+							state = 0;
+						case 'T':
+							state = 0;
+						case 'U':
+							state = 0;
+						case 'V':
+							state = 0;
+						case 'W':
+							state = 0;
+						case 'X':
+							state = 0;
+						case 'Y':
+							state = 0;
+						case 'Z':
+							state = 0;
+					}
+				}
+				break;
+			case 4:
+				c = string[i];
+				if(c == 'A'){
+					state = state + 1;
+				}
+				else{
+					switch(c){
+						case 'B':
+							state = 0;
+						case 'C':
+							state = 1;
+						case 'D':
+							state = 0;
+						case 'E':
+							state = 0;
+						case 'F':
+							state = 0;
+						case 'G':
+							state = 0;
+						case 'H':
+							state = 0;
+						case 'I':
+							state = 0;
+						case 'J':
+							state = 0;
+						case 'K':
+							state = 0;
+						case 'L':
+							state = 0;
+						case 'M':
+							state = 0;
+						case 'N':
+							state = 0;
+						case 'O':
+							state = 0;
+						case 'P':
+							state = 0;
+						case 'Q':
+							state = 0;
+						case 'R':
+							state = 0;
+						case 'S':
+							state = 0;
+						case 'T':
+							state = 0;
+						case 'U':
+							state = 0;
+						case 'V':
+							state = 0;
+						case 'W':
+							state = 0;
+						case 'X':
+							state = 0;
+						case 'Y':
+							state = 0;
+						case 'Z':
+							state = 0;
+					}
+				}
+				break;
+			case 5:
+				c = string[i];
+				if(c == 'C'){
+					state = state + 1;
+				}
+				else{
+					switch(c){
+						case 'A':
+							state = 0;
+						case 'B':
+							state = 0;
+						case 'D':
+							state = 0;
+						case 'E':
+							state = 0;
+						case 'F':
+							state = 0;
+						case 'G':
+							state = 0;
+						case 'H':
+							state = 0;
+						case 'I':
+							state = 0;
+						case 'J':
+							state = 0;
+						case 'K':
+							state = 0;
+						case 'L':
+							state = 0;
+						case 'M':
+							state = 0;
+						case 'N':
+							state = 0;
+						case 'O':
+							state = 0;
+						case 'P':
+							state = 0;
+						case 'Q':
+							state = 0;
+						case 'R':
+							state = 0;
+						case 'S':
+							state = 0;
+						case 'T':
+							state = 0;
+						case 'U':
+							state = 0;
+						case 'V':
+							state = 0;
+						case 'W':
+							state = 0;
+						case 'X':
+							state = 0;
+						case 'Y':
+							state = 0;
+						case 'Z':
+							state = 0;
+					}
+				}
+				break;
+			case 6:
+				c = string[i];
+				if(c == 'B'){
+					state = state + 1;
+				}
+				else{
+					switch(c){
+						case 'A':
+							state = 0;
+						case 'C':
+							state = 1;
+						case 'D':
+							state = 0;
+						case 'E':
+							state = 0;
+						case 'F':
+							state = 0;
+						case 'G':
+							state = 0;
+						case 'H':
+							state = 0;
+						case 'I':
+							state = 0;
+						case 'J':
+							state = 0;
+						case 'K':
+							state = 0;
+						case 'L':
+							state = 0;
+						case 'M':
+							state = 0;
+						case 'N':
+							state = 0;
+						case 'O':
+							state = 0;
+						case 'P':
+							state = 0;
+						case 'Q':
+							state = 0;
+						case 'R':
+							state = 0;
+						case 'S':
+							state = 0;
+						case 'T':
+							state = 0;
+						case 'U':
+							state = 0;
+						case 'V':
+							state = 0;
+						case 'W':
+							state = 0;
+						case 'X':
+							state = 0;
+						case 'Y':
+							state = 0;
+						case 'Z':
+							state = 0;
+					}
+				}
+				break;
+			case 7:
+				c = string[i];
+				if(c == 'C'){
+					state = state + 1;
+				}
+				else{
+					switch(c){
+						case 'A':
+							state = 3;
+						case 'B':
+							state = 0;
+						case 'D':
+							state = 0;
+						case 'E':
+							state = 0;
+						case 'F':
+							state = 0;
+						case 'G':
+							state = 0;
+						case 'H':
+							state = 0;
+						case 'I':
+							state = 0;
+						case 'J':
+							state = 0;
+						case 'K':
+							state = 0;
+						case 'L':
+							state = 0;
+						case 'M':
+							state = 0;
+						case 'N':
+							state = 0;
+						case 'O':
+							state = 0;
+						case 'P':
+							state = 0;
+						case 'Q':
+							state = 0;
+						case 'R':
+							state = 0;
+						case 'S':
+							state = 0;
+						case 'T':
+							state = 0;
+						case 'U':
+							state = 0;
+						case 'V':
+							state = 0;
+						case 'W':
+							state = 0;
+						case 'X':
+							state = 0;
+						case 'Y':
+							state = 0;
+						case 'Z':
+							state = 0;
+					}
+				}
+				break;
+			case 8:
+				c = string[i];
+				if(c == 'B'){
+					state = state + 1;
+				}
+				else{
+					switch(c){
+						case 'A':
+							state = 0;
+						case 'C':
+							state = 1;
+						case 'D':
+							state = 0;
+						case 'E':
+							state = 0;
+						case 'F':
+							state = 0;
+						case 'G':
+							state = 0;
+						case 'H':
+							state = 0;
+						case 'I':
+							state = 0;
+						case 'J':
+							state = 0;
+						case 'K':
+							state = 0;
+						case 'L':
+							state = 0;
+						case 'M':
+							state = 0;
+						case 'N':
+							state = 0;
+						case 'O':
+							state = 0;
+						case 'P':
+							state = 0;
+						case 'Q':
+							state = 0;
+						case 'R':
+							state = 0;
+						case 'S':
+							state = 0;
+						case 'T':
+							state = 0;
+						case 'U':
+							state = 0;
+						case 'V':
+							state = 0;
+						case 'W':
+							state = 0;
+						case 'X':
+							state = 0;
+						case 'Y':
+							state = 0;
+						case 'Z':
+							state = 0;
+					}
+				}
+				break;
+			case 9:
+				c = string[i];
+				if(c == 'A'){
+					return true;
+				}
+				else{
+					switch(c){
+						case 'B':
+							state = 0;
+						case 'C':
+							state = 1;
+						case 'D':
+							state = 0;
+						case 'E':
+							state = 0;
+						case 'F':
+							state = 0;
+						case 'G':
+							state = 0;
+						case 'H':
+							state = 0;
+						case 'I':
+							state = 0;
+						case 'J':
+							state = 0;
+						case 'K':
+							state = 0;
+						case 'L':
+							state = 0;
+						case 'M':
+							state = 0;
+						case 'N':
+							state = 0;
+						case 'O':
+							state = 0;
+						case 'P':
+							state = 0;
+						case 'Q':
+							state = 0;
+						case 'R':
+							state = 0;
+						case 'S':
+							state = 0;
+						case 'T':
+							state = 0;
+						case 'U':
+							state = 0;
+						case 'V':
+							state = 0;
+						case 'W':
+							state = 0;
+						case 'X':
+							state = 0;
+						case 'Y':
+							state = 0;
+						case 'Z':
+							state = 0;
+					}
+				}
+				break;
+		}
+		i = i + 1;
+	}
+	return false;
 }
